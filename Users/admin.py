@@ -9,8 +9,8 @@ class StylusUserAdmin(UserAdmin):
     list_display = ["email"]
 
     fieldsets = (
-        ("Login", {"fields": ("email", "username", "password")}),
-        ("Permissions", {"fields": ("is_staff", "is_active", "last_login")})
+        ("Belépési adatok", {"fields": ("email", "username", "password")}),
+        ("Jogosultságok", {"fields": ("is_staff", "is_active", "last_login")})
     )
 
     add_fieldsets = (
