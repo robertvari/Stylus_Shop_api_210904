@@ -25,6 +25,9 @@ class StylusUserManager(BaseUserManager):
 
         return user
 
+    def create_superuser(self, email, password):
+        return self.create_user(email, password, superuser=True)
+
 
 class StylusUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField("Email", unique=True)
