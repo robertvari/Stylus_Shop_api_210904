@@ -12,3 +12,10 @@ class StylusUserAdmin(UserAdmin):
         ("Login", {"fields": ("email", "username", "password")}),
         ("Permissions", {"fields": ("is_staff", "is_active", "last_login")})
     )
+
+    add_fieldsets = (
+        (None, {"fields": ("email", "password1", "password2")})
+    )
+
+
+admin.site.register(StylusUser, StylusUserAdmin)
