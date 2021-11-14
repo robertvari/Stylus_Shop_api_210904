@@ -18,7 +18,7 @@ class StylusUserAdmin(UserAdmin):
     )
 
     add_fieldsets = (
-        (None, {"fields": ("email", "password1", "password2")})
+        (None, {"fields": ("email", "password1", "password2")}),
     )
 
     inlines = [
