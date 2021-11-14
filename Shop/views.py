@@ -1,8 +1,11 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework.permissions import AllowAny
 
 
 class SiteInfo(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         result = {
             "name": "Stylus Shop",
@@ -14,6 +17,8 @@ class SiteInfo(APIView):
 
 
 class CategoriesView(APIView):
+    permission_classes = [AllowAny]
+
     def get(self, request):
         result = [
         {"id": 0, "title": "Cameras", "image":"https://cdn.shopify.com/s/files/1/0543/1637/collections/camera_125x.jpg?v=1480360378", "items": ["Leica M", "Leica SL", "Leica S", "Analog", "Leica Q", "Leica Sofort System", "Compact", "Leica T", "Leica X"]},
