@@ -79,9 +79,11 @@ def create_username(sender, instance, **kwargs):
 
 @receiver(post_save, sender=StylusUser)
 def create_profile(sender, instance, **kwargs):
-    pass
+    if kwargs["created"]:
+        Profile.objects.create(user=instance)
 
 
 @receiver(pre_save, sender=Profile)
 def slug_generator(sender, instance, **kwargs):
-    pass
+    if not instance.slug:
+        instance.slug = instance.user.username
