@@ -68,7 +68,13 @@ class Profile(models.Model):
 
 @receiver(pre_save, sender=StylusUser)
 def create_username(sender, instance, **kwargs):
-    pass
+    if not instance.username:
+        username = slugify(instance.email.split("@")[0])
+
+        if StylusUser.objects.filter(username=username):
+            username = f"{username}_{int(time.time())}"
+
+        instance.username = username
 
 
 @receiver(post_save, sender=StylusUser)
