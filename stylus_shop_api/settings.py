@@ -41,11 +41,40 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
+    'rest_framework.authtoken',
     "corsheaders",
+
+    "rest_auth",
+    "allauth",
+    "allauth.account",
+    "rest_auth.registration",
+    "allauth.socialaccount",
 
     "Users.apps.UsersConfig",
     "Shop.apps.ShopConfig"
 ]
+
+SITE_ID = 1
+
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_CONFIRM_EMAIL_ON_GET = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = 'http://localhost:3000/login'
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        'rest_framework.permissions.IsAuthenticated'
+    ],
+    "DEFAULT_AUTHENTICATION_CLASSES": [
+        'rest_framework.authentication.TokenAuthentication'
+    ]
+}
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
