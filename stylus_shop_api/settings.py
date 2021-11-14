@@ -41,12 +41,17 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    "corsheaders"
+    "corsheaders",
+
+    "Users.apps.UsersConfig",
+    "Shop.apps.ShopConfig"
 ]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000"
 ]
+
+AUTH_USER_MODEL = "Users.StylusUser"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
