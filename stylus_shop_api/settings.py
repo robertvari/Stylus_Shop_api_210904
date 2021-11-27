@@ -66,7 +66,7 @@ ACCOUNT_CONFIRM_EMAIL_ON_GET = True
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-LOGIN_URL = 'http://localhost:3000/login'
+LOGIN_URL = 'http://localhost:3000/users/login'
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
