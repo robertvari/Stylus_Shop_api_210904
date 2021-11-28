@@ -2,9 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.db import transaction
+from django.conf import settings
+import stripe
 
 from .models import Category, SiteInfo, ShopItem, OrderItems, Order
 from Users.models import StylusUser
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
 class ShopItemsView(APIView):
@@ -85,9 +89,13 @@ class OrderView(APIView):
         amount = request.data.get("amount")
 
         # todo integrate stripe payment
-        payment_intent = {
-            "status": "succeeded"
-        }
+        payment_intent = stripe.PaymentIntent.create(
+            amount=amount,
+            currency="huf",
+            payment_method=payment_id,
+            receipt_email=request.data.get("customer")["email"],
+            confirm=True
+        )
 
         if payment_intent.get("status") == "succeeded":
             self._save_order()
