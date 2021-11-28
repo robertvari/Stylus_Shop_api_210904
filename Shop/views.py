@@ -1,6 +1,7 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
+from django.db import transaction
 
 from .models import Category, SiteInfo, ShopItem
 
@@ -93,4 +94,23 @@ class OrderView(APIView):
         return Response("order processed...")
 
     def _save_order(self):
-        pass
+        shopping_list = self.request.data.get("shopping_list")
+        customer = self.request.data.get("customer")
+
+        order_items = []
+
+        for item in shopping_list:
+            item_id = item["id"]
+            quantity = item["quantity"]
+
+            with transaction.atomic():
+                shop_item = ShopItem.objects.select_for_update().get(id=item_id)
+                shop_item.in_stock -= quantity
+                shop_item.save()
+
+            order_item = ShopItem.objects.create(
+                item=shop_item,
+                quantity=quantity
+            )
+
+            order_items.append(order_item)
