@@ -28,7 +28,7 @@ STRIPE_SECRET_KEY = os.getenv("STRIPE_SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["139.162.163.23", "127.0.0.1"]
 
 
 # Application definition
@@ -100,7 +100,9 @@ ROOT_URLCONF = 'stylus_shop_api.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
+        'DIRS': [
+            BASE_DIR / "react/build"
+        ]
         ,
         'APP_DIRS': True,
         'OPTIONS': {
