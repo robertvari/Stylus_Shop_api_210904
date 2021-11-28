@@ -19,6 +19,16 @@ def image_dir_path(instance, filename):
         return f"shop/{slugify(instance.category.title)}/{slugify(instance.title)}/{filename}"
 
 
+class SiteInfo(models.Model):
+    site_title = models.CharField(max_length=200)
+    address = models.CharField(max_length=200)
+    phone = models.CharField(max_length=200)
+    email = models.EmailField(max_length=200)
+
+    def __str__(self):
+        return self.site_title
+
+
 class Category(models.Model):
     title = models.CharField(max_length=200)
     image = models.ImageField(upload_to=get_category_dir_path)

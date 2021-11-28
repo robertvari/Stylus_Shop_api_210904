@@ -2,13 +2,21 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 
-from .models import Category
+from .models import Category, SiteInfo
 
 
-class SiteInfo(APIView):
+class SiteInfoView(APIView):
     permission_classes = [AllowAny]
 
     def get(self, request):
+        result = SiteInfo.objects.all()
+        if result:
+            return Response({
+                "name": result[0].site_title,
+                "phone": result[0].phone,
+                "address": result[0].address
+            })
+
         return Response({})
 
 

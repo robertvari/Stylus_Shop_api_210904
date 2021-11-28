@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, SubCategory, ShopItem, Order, OrderItems
+from .models import Category, SubCategory, ShopItem, Order, OrderItems, SiteInfo
 
 
 class ShopItemAdmin(admin.ModelAdmin):
@@ -16,6 +16,7 @@ class OrderItemAdmin(admin.ModelAdmin):
     list_display = ["item", "quantity"]
 
 
+admin.site.register(SiteInfo)
 admin.site.register(Category)
 admin.site.register(SubCategory)
 admin.site.register(ShopItem, ShopItemAdmin)
