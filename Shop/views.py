@@ -73,3 +73,24 @@ class CategoriesView(APIView):
             )
 
         return Response(result)
+
+
+class OrderView(APIView):
+    permission_classes = [AllowAny]
+
+    def post(self, request):
+        payment_id = request.data.get("payment_id")
+        amount = request.data.get("amount")
+
+        # todo integrate stripe payment
+        payment_intent = {
+            "status": "succeeded"
+        }
+
+        if payment_intent.get("status") == "succeeded":
+            self._save_order()
+
+        return Response("order processed...")
+
+    def _save_order(self):
+        pass
