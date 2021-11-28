@@ -3,7 +3,8 @@ from rest_framework.response import Response
 from rest_framework.permissions import AllowAny
 from django.db import transaction
 
-from .models import Category, SiteInfo, ShopItem
+from .models import Category, SiteInfo, ShopItem, OrderItems, Order
+from Users.models import StylusUser
 
 
 class ShopItemsView(APIView):
@@ -94,11 +95,14 @@ class OrderView(APIView):
         return Response("order processed...")
 
     def _save_order(self):
+        # get the shopping list
         shopping_list = self.request.data.get("shopping_list")
+
+        # get customer
         customer = self.request.data.get("customer")
 
+        # create a order item list
         order_items = []
-
         for item in shopping_list:
             item_id = item["id"]
             quantity = item["quantity"]
@@ -108,9 +112,29 @@ class OrderView(APIView):
                 shop_item.in_stock -= quantity
                 shop_item.save()
 
-            order_item = ShopItem.objects.create(
+            order_item = OrderItems.objects.create(
                 item=shop_item,
                 quantity=quantity
             )
 
             order_items.append(order_item)
+
+        user = None
+        if customer.get("user_id"):
+            user = StylusUser.objects.get(id=customer.get("user_id"))
+
+        # save order
+        order = Order.objects.create(
+            user=user,
+            email=customer.get("email"),
+            first_name=customer.get("first_name"),
+            last_name=customer.get("last_name"),
+            company=customer.get("company"),
+            address=customer.get("address"),
+            city=customer.get("city"),
+            post_code=customer.get("post_code"),
+            phone=customer.get("phone")
+        )
+
+        order.items.set(order_items)
+        order.save()
